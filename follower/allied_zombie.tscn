@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://follower/allied_zombie.gd" id="1_allied"]
+[ext_resource type="Script" path="res://follower/squad_follower.gd" id="2_follower"]
+[ext_resource type="Script" path="res://ui/health_bar_3d.gd" id="3_health_bar"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+size = Vector3(0.9, 1.2, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="Mat_allied"]
+albedo_color = Color(0.3, 0.55, 0.85, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_head"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_allied"]
+size = Vector3(0.9, 1.7, 0.6)
+
+[node name="AlliedZombie" type="CharacterBody3D" groups=["squad"]]
+script = ExtResource("1_allied")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.1, 0)
+mesh = SubResource("BoxMesh_body")
+surface_material_override/0 = SubResource("Mat_allied")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.75, 0)
+mesh = SubResource("BoxMesh_head")
+surface_material_override/0 = SubResource("Mat_allied")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.85, 0)
+shape = SubResource("BoxShape_allied")
+
+[node name="SquadFollower" type="Node" parent="."]
+script = ExtResource("2_follower")
+
+[node name="HealthBar" type="Node3D" parent="."]
+position = Vector3(0, 2.15, 0)
+script = ExtResource("3_health_bar")
+fill_color = Color(0.4, 0.7, 0.85, 1)

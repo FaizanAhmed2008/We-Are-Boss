@@ -1,0 +1,12 @@
+# Godot auto-generated files
+.godot/
+
+# Export builds
+/build/
+/export/
+/android/
+
+# Editor / OS cruft
+*.tmp
+.DS_Store
+Thumbs.db

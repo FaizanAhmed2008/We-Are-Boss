@@ -1,0 +1,179 @@
+[gd_scene format=3 uid="uid://cccn3ky2qc20w"]
+
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://camera/player_camera.tscn" id="2_camera"]
+[ext_resource type="PackedScene" path="res://enemy/zombie.tscn" id="3_zombie"]
+[ext_resource type="PackedScene" path="res://follower/allied_zombie.tscn" id="4_allied"]
+[ext_resource type="PackedScene" path="res://boss/boss.tscn" id="5_boss"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_arena"]
+sky_top_color = Color(0.25, 0.46, 0.8, 1)
+sky_horizon_color = Color(0.65, 0.75, 0.9, 1)
+ground_bottom_color = Color(0.15, 0.15, 0.18, 1)
+ground_horizon_color = Color(0.55, 0.6, 0.7, 1)
+
+[sub_resource type="Sky" id="Sky_arena"]
+sky_material = SubResource("ProceduralSkyMaterial_arena")
+
+[sub_resource type="Environment" id="Environment_arena"]
+background_mode = 2
+sky = SubResource("Sky_arena")
+ambient_light_source = 3
+ambient_light_energy = 0.5
+tonemap_mode = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.45, 0.45, 0.48, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall"]
+size = Vector3(52, 3, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.55, 0.3, 0.25, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall"]
+size = Vector3(52, 3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crate_small"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="Mat_crate"]
+albedo_color = Color(0.75, 0.6, 0.2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_crate_small"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crate_medium"]
+size = Vector3(3, 3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_crate_medium"]
+size = Vector3(3, 3, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crate_flat"]
+size = Vector3(2.5, 1.5, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape_crate_flat"]
+size = Vector3(2.5, 1.5, 2.5)
+
+[node name="TestArena" type="Node3D" unique_id=1011351526]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1768967779]
+environment = SubResource("Environment_arena")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1884164245]
+transform = Transform3D(0.81915206, 0.43938506, -0.36868784, 0, 0.64278764, 0.76604444, 0.57357645, -0.62750685, 0.5265408, 0, 0, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="." unique_id=1816492383]
+
+[node name="Mesh" type="MeshInstance3D" parent="Floor" unique_id=383800198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="Collision" type="CollisionShape3D" parent="Floor" unique_id=2042441837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape_floor")
+
+[node name="NorthWall" type="StaticBody3D" parent="." unique_id=1427865889]
+
+[node name="Mesh" type="MeshInstance3D" parent="NorthWall" unique_id=752114541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -25.5)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Collision" type="CollisionShape3D" parent="NorthWall" unique_id=1626504838]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -25.5)
+shape = SubResource("BoxShape_wall")
+
+[node name="SouthWall" type="StaticBody3D" parent="." unique_id=87958837]
+
+[node name="Mesh" type="MeshInstance3D" parent="SouthWall" unique_id=574541449]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 25.5)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Collision" type="CollisionShape3D" parent="SouthWall" unique_id=1042129152]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 25.5)
+shape = SubResource("BoxShape_wall")
+
+[node name="EastWall" type="StaticBody3D" parent="." unique_id=502170047]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="EastWall" unique_id=159690785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 25.5)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Collision" type="CollisionShape3D" parent="EastWall" unique_id=675419279]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 25.5)
+shape = SubResource("BoxShape_wall")
+
+[node name="WestWall" type="StaticBody3D" parent="." unique_id=889885823]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="WestWall" unique_id=320154512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -25.5)
+mesh = SubResource("BoxMesh_wall")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="Collision" type="CollisionShape3D" parent="WestWall" unique_id=383502013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -25.5)
+shape = SubResource("BoxShape_wall")
+
+[node name="CrateSmall" type="StaticBody3D" parent="." unique_id=317444405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="CrateSmall" unique_id=1125288333]
+mesh = SubResource("BoxMesh_crate_small")
+surface_material_override/0 = SubResource("Mat_crate")
+
+[node name="Collision" type="CollisionShape3D" parent="CrateSmall" unique_id=562259232]
+shape = SubResource("BoxShape_crate_small")
+
+[node name="CrateMedium" type="StaticBody3D" parent="." unique_id=2051337766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 1.5, -4)
+
+[node name="Mesh" type="MeshInstance3D" parent="CrateMedium" unique_id=1600606662]
+mesh = SubResource("BoxMesh_crate_medium")
+surface_material_override/0 = SubResource("Mat_crate")
+
+[node name="Collision" type="CollisionShape3D" parent="CrateMedium" unique_id=282509400]
+shape = SubResource("BoxShape_crate_medium")
+
+[node name="CrateFlat" type="StaticBody3D" parent="." unique_id=2140226899]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.75, -9)
+
+[node name="Mesh" type="MeshInstance3D" parent="CrateFlat" unique_id=1525516546]
+mesh = SubResource("BoxMesh_crate_flat")
+surface_material_override/0 = SubResource("Mat_crate")
+
+[node name="Collision" type="CollisionShape3D" parent="CrateFlat" unique_id=1073114806]
+shape = SubResource("BoxShape_crate_flat")
+
+[node name="Player" parent="." unique_id=418570966 instance=ExtResource("1_player")]
+
+[node name="PlayerCamera" parent="." unique_id=296720124 instance=ExtResource("2_camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 14)
+
+[node name="Zombie" parent="." unique_id=1631635632 instance=ExtResource("3_zombie")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7591524, -0.44703108, -9.106479)
+
+[node name="Boss" parent="." unique_id=1234567890 instance=ExtResource("5_boss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
+
+[node name="AlliedZombie" parent="." unique_id=1092891303 instance=ExtResource("4_allied")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.786096, 0, 1.5)
+
+[node name="AlliedZombie2" parent="." unique_id=352432019 instance=ExtResource("4_allied")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1.5)
+
+[node name="AlliedZombie3" parent="." unique_id=1860152040 instance=ExtResource("4_allied")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.5)
